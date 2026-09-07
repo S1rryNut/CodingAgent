@@ -1,0 +1,94 @@
+{
+  "version": 2,
+  "nodes": [
+    {
+      "type": "frame",
+      "id": "root",
+      "x": 20, "y": 20,
+      "layout": "dagre",
+      "width": "fit-content", "height": "fit-content",
+      "padding": 60,
+      "fillColor": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "borderWidth": 1,
+      "borderRadius": 16,
+      "layoutOptions": {
+        "rankdir": "LR",
+        "nodesep": 60,
+        "ranksep": 130,
+        "edges": [
+          ["user", "assemble", "用户任务"],
+          ["assemble", "llm", "system + 历史"],
+          ["llm", "judge", "模型响应"],
+          ["judge", "parse", "是"],
+          ["parse", "exec", "参数"],
+          ["exec", "feed", "执行结果"],
+          ["feed", "llm", "下一轮迭代"],
+          ["judge", "done", "否"]
+        ]
+      },
+      "children": [
+        {
+          "type": "ellipse", "id": "user", "text": [{"content": "用户任务", "bold": true}],
+          "width": 120, "height": 60,
+          "fillColor": "#DFF5E5", "borderColor": "#509863", "borderWidth": 2,
+          "fontSize": 14, "textColor": "#1F2329"
+        },
+        {
+          "type": "frame", "id": "assemble",
+          "layout": "vertical", "gap": 6, "padding": [12, 18],
+          "alignItems": "center",
+          "fillColor": "#FFFFFF", "borderColor": "#5178C6", "borderWidth": 2, "borderRadius": 8,
+          "children": [
+            { "type": "text", "text": [{"content": "① 组装消息", "bold": true}], "fontSize": 14, "textColor": "#1F2329", "textAlign": "center" },
+            { "type": "text", "text": "system(代码地图+记忆)\n+ user任务 + 历史", "fontSize": 11, "textColor": "#646A73", "textAlign": "center" }
+          ]
+        },
+        {
+          "type": "frame", "id": "llm",
+          "layout": "vertical", "gap": 6, "padding": [12, 18],
+          "alignItems": "center",
+          "fillColor": "#FFFFFF", "borderColor": "#5178C6", "borderWidth": 2, "borderRadius": 8,
+          "children": [
+            { "type": "text", "text": [{"content": "② 调用 LLM", "bold": true}], "fontSize": 14, "textColor": "#1F2329", "textAlign": "center" },
+            { "type": "text", "text": "传入全部工具 JSON Schema\n让模型自主决策", "fontSize": 11, "textColor": "#646A73", "textAlign": "center" }
+          ]
+        },
+        {
+          "type": "diamond", "id": "judge", "text": [{"content": "返回\ntool_calls？", "bold": true}],
+          "width": 140, "height": 90,
+          "fillColor": "#FEF1CE", "borderColor": "#D4B45B", "borderWidth": 2,
+          "fontSize": 13, "textColor": "#1F2329"
+        },
+        {
+          "type": "rect", "id": "parse", "text": [{"content": "③ 容错解析参数", "bold": true}],
+          "width": 150, "height": 44,
+          "fillColor": "#FFFFFF", "borderColor": "#8569CB", "borderWidth": 2, "borderRadius": 8,
+          "fontSize": 13, "textColor": "#1F2329"
+        },
+        {
+          "type": "frame", "id": "exec",
+          "layout": "vertical", "gap": 6, "padding": [12, 18],
+          "alignItems": "center",
+          "fillColor": "#FFFFFF", "borderColor": "#8569CB", "borderWidth": 2, "borderRadius": 8,
+          "children": [
+            { "type": "text", "text": [{"content": "④ 执行工具", "bold": true}], "fontSize": 14, "textColor": "#1F2329", "textAlign": "center" },
+            { "type": "text", "text": "文件读写 / Shell\n代码搜索 / Git", "fontSize": 11, "textColor": "#646A73", "textAlign": "center" }
+          ]
+        },
+        {
+          "type": "rect", "id": "feed", "text": [{"content": "⑤ 结果回填 tool 消息", "bold": true}, {"content": "（必须带 tool_call_id）", "fontSize": 11, "color": "#646A73"}],
+          "width": 170, "height": 56,
+          "fillColor": "#FFFFFF", "borderColor": "#8569CB", "borderWidth": 2, "borderRadius": 8,
+          "fontSize": 13, "textColor": "#1F2329"
+        },
+        {
+          "type": "ellipse", "id": "done", "text": [{"content": "任务完成", "bold": true}, {"content": "返回最终回答", "fontSize": 11, "color": "#646A73"}],
+          "width": 130, "height": 70,
+          "fillColor": "#DFF5E5", "borderColor": "#509863", "borderWidth": 2,
+          "fontSize": 14, "textColor": "#1F2329"
+        }
+      ]
+    }
+  ]
+}

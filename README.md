@@ -112,44 +112,15 @@ python -m venv .venv
 
 ## TDD 模式工作流程
 
-```
-用户需求
-    │
-    ▼
-① 先写测试（RED）─── pytest 跑 → 测试失败（因为实现还没写）
-    │
-    ▼
-② 分析失败原因，写最小实现
-    │
-    ▼
-③ 再跑测试（GREEN）── 通过？→ 完成；失败？→ 回到 ②
-    │
-    ▼
-④ 全部通过 → 总结
-```
+![TDD 模式工作流程](docs/images/tdd_flow.png)
+
+TDDAgent 通过注入 TDD 流程指令（写测试 → 确认 RED → 写实现 → 确认 GREEN → 收尾）强制遵守测试驱动开发纪律，测试不通过不会进入"完成"状态。
 
 ## 工作原理
 
 本项目是一个标准的 **ReAct（Reasoning + Acting）循环** 实现：
 
-```
-用户任务
-   │
-   ▼
-① 组装消息 ── system（含 RepoMap 代码地图 + 项目记忆 + 任务状态）
-   │           + user（任务）+ 历史对话
-   ▼
-② 调用 LLM ── 传入全部工具的 JSON Schema，让模型自主决策
-   │
-   ├── 模型返回 tool_calls ──→ ③ 容错解析参数 → ④ 执行工具
-   │                              （文件读写 / shell / 搜索 / git）
-   │                                   │
-   │                                   ▼
-   │                         ⑤ 工具结果回填为 tool 消息
-   │                          （必须带 tool_call_id，否则 API 400）
-   │                                   │
-   └── 模型直接回答 ──→ 任务结束，返回最终结果
-```
+![ReAct 循环工作原理](docs/images/react_loop.png)
 
 关键机制：
 
