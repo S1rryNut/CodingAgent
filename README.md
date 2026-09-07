@@ -164,10 +164,15 @@ python -m venv .venv
 ## 测试
 
 ```bash
-.venv\Scripts\python test_all_tmp.py   # 全模块测试（fake LLM，不耗 API）
+.venv\Scripts\python tests\test_all.py    # 全模块综合测试（fake LLM，不耗 API）
+.venv\Scripts\python tests\test_llm.py    # LLM 客户端（真实 API，需要 .env）
+.venv\Scripts\python tests\test_tool.py   # 工具系统（@tool / JSON Schema / ToolRegistry）
+.venv\Scripts\python tests\test_memory.py # 记忆系统（短期/任务状态/项目记忆）
+.venv\Scripts\python tests\test_utils.py  # 工具函数（token 计数 / 容错 JSON 解析）
+.venv\Scripts\python tests\test_e2e.py    # 端到端真实 API 测试（跑完整 TDD 任务，消耗 token）
 ```
 
-测试覆盖：文件工具、Shell 工具、代码搜索、Git 工具（真实 git 仓库）、RepoMap、Agent 主循环（验证消息序列、tool_call_id 关联、任务状态记录）。
+测试覆盖：文件工具、Shell 工具、代码搜索、Git 工具（真实 git 仓库）、RepoMap、Agent 主循环（验证消息序列、tool_call_id 关联、任务状态记录）。以上命令均需在项目根目录运行。
 
 ## 技术要点
 

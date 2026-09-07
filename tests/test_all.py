@@ -11,7 +11,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from coding_agent.tool import ToolRegistry
 from coding_agent.tools.file_tools import read_file, write_file, edit_file, list_files
