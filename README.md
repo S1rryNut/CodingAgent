@@ -207,7 +207,3 @@ python -m venv .venv
 
 - 本项目参考了 Aider 的 Repo Map 设计思想，但实现完全独立
 - 若你发现了 bug 或有改进建议，欢迎提交 Issue 或 PR
-
-## License
-
-MIT
